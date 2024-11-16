@@ -1,14 +1,14 @@
 import React from "react";
-import "./forgotPassword-1.css";
+import "./forgotPassword-2.css";
 // import { Link } from "react-router-dom";
 
-function ForgotPasswordPage1() {
+function ForgotPasswordPage2() {
   return (
     <div className="forgot-password-container">
       <h1 className="app-title">Healthguard Pro</h1>
       <div className="forgot-password-box">
         <h2 className="forgot-password-title">Forgot Password</h2>
-        <input type="email" placeholder="Enter email" />
+        <input type="email" placeholder="Enter mobile number" />
         <button className="forgot-password-btn">Send OTP</button>
         <p className="forgot-password-link">
           <a href="/login">Try another way</a>
@@ -18,4 +18,4 @@ function ForgotPasswordPage1() {
   );
 }
 
-export default ForgotPasswordPage1;
+export default ForgotPasswordPage2;
