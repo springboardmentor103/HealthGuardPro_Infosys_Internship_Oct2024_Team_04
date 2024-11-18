@@ -1,6 +1,6 @@
 import React from "react";
 import "./changePassword.css";
-// import { Link } from "react-router-dom";
+ import { Link } from "react-router-dom";
 
 function ChangePassword() {
   return (
@@ -15,7 +15,7 @@ function ChangePassword() {
         <button type="submit">Confirm</button>
         </form>
         <p className="back-to-login">
-          Go back to <a href="/login">Log in</a>
+        Go back to <Link to="/login">Log in</Link>
         </p>
       </div>
     </div>

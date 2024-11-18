@@ -1,28 +1,27 @@
 import React from "react";
-// import { Link } from "react-router-dom";
-// import Signup from "../src/pages/signUpPage/signup.js";
-// import Login from "./pages/loginPage/login.js"
-// import OtpVerificationPage from "./pages/verifyOtp/verifyOtp.js";
-// import ForgotPasswordPage1 from "./pages/forgotPassword-1Page/forgotpassword-1.js";
-// import ForgotPasswordPage2 from "./pages/forgotPassword-2Page/forgotPassword-2";
-// import ChangePassword from "./pages/changePassword/changePassword.js";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./pages/loginPage/login";
+import Signup from "./pages/signUpPage/signup";
+import ForgotPasswordPage1 from "./pages/forgotPassword-1Page/forgotpassword-1";
 
+import ChangePassword from "./pages/changePassword/changePassword";
+import OtpVerificationPage from "./pages/verifyOtp/verifyOtp";
 
 function App() {
-    return (
-        <>
-        {/* <ChangePassword /> */}
-        {/* <Signup /> */}
-        {/* <Login /> */}
-        {/* <OtpVerificationPage /> */}
-        {/* <ForgotPasswordPage1 /> */}
-        {/* <ForgotPasswordPage2 /> */}
-        
-        </>
-        
-    );
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/forgotPassword-1" element={<ForgotPasswordPage1 />} />
+        <Route path="/changePassword" element={<ChangePassword />} />
+        <Route path="/verifyOtp" element={<OtpVerificationPage />} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;
-
 
