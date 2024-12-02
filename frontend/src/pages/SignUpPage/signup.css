@@ -1,0 +1,103 @@
+/* Main container styling */
+.signup-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f0f9fb;
+  font-family: Arial, sans-serif;
+}
+
+/* Title styling */
+.app-title {
+  font-size: 36px;
+  color: #4e9eab;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px #a5e9f0, 0 0 20px #a5e9f0, 0 0 30px #a5e9f0;
+}
+
+/* Signup box styling */
+.signup-box {
+  height: 450px; /* Adjusted to fit the additional username field */
+  width: 320px;
+  padding: 20px;
+  border-radius: 15px;
+  background-color: #b2e2e8;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Signup title */
+.signup-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+/* Input fields styling */
+.signup-box input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+/* Button styling */
+.signup-box button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  background-color: #4a626a;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.signup-box button:hover {
+  background-color: #3d5159;
+}
+
+/* Sign-in link styling */
+.signin-link {
+  margin-top: 20px;
+  font-size: 14px;
+  color: white;
+}
+
+.signin-link a {
+  color: #3d5159;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.signin-link a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .signup-box {
+    width: 90%; /* Adjust width for smaller screens */
+  }
+  .app-title {
+    font-size: 28px; /* Slightly smaller title for mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .signup-box {
+    width: 85%; /* Narrower box for very small screens */
+  }
+  .signup-title {
+    font-size: 20px; /* Smaller signup title for mobile */
+  }
+}
+
+
