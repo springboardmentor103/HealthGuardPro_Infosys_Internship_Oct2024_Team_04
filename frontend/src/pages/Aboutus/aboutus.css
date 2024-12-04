@@ -1,0 +1,120 @@
+/* General container styling */
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #f0f9fb, #b2e2e8);
+  font-family: Arial, sans-serif;
+  color: #3d5159;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Back button styling */
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: #4e9eab;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.back-button:hover {
+  background-color: #3b7d88;
+  transform: translateY(-2px);
+}
+
+/* Title and subtitle styling */
+.title {
+  font-size: 42px;
+  color: #4e9eab;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 28px;
+  color: #3d5159;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* Content box styling */
+.content-box {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  line-height: 1.8;
+  font-size: 18px;
+  text-align: left;
+  max-height: 50vh;
+  overflow-y: auto;
+  width: 80%;
+  scrollbar-width: thin;
+  scrollbar-color: #4e9eab #e6e6e6;
+}
+
+/* Scrollbar styling */
+.content-box::-webkit-scrollbar {
+  width: 8px;
+}
+
+.content-box::-webkit-scrollbar-track {
+  background: #e6e6e6;
+  border-radius: 10px;
+}
+
+.content-box::-webkit-scrollbar-thumb {
+  background: #4e9eab;
+  border-radius: 10px;
+}
+
+.content-box::-webkit-scrollbar-thumb:hover {
+  background: #3b7d88;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .title {
+      font-size: 32px;
+  }
+
+  .subtitle {
+      font-size: 22px;
+  }
+
+  .content-box {
+      max-height: 45vh;
+      font-size: 16px;
+  }
+
+  .back-button {
+      font-size: 14px;
+      padding: 8px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+      font-size: 28px;
+  }
+
+  .subtitle {
+      font-size: 20px;
+  }
+}
