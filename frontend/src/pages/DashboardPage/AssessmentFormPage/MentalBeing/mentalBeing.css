@@ -1,5 +1,4 @@
-/* Container for the entire assessment page */
-.mental-being-container {
+.mental-well-being-container {
   max-width: 900px;
   margin: 20px auto;
   padding: 30px;
@@ -12,20 +11,20 @@
 }
 
 /* Custom Scrollbar Styling */
-.mental-being-container::-webkit-scrollbar {
+.mental-well-being-container::-webkit-scrollbar {
   width: 8px;
 }
 
-.mental-being-container::-webkit-scrollbar-thumb {
+.mental-well-being-container::-webkit-scrollbar-thumb {
   background: #4e9eab;
   border-radius: 10px;
 }
 
-.mental-being-container::-webkit-scrollbar-thumb:hover {
+.mental-well-being-container::-webkit-scrollbar-thumb:hover {
   background: #367f8e;
 }
 
-.mental-being-container::-webkit-scrollbar-track {
+.mental-well-being-container::-webkit-scrollbar-track {
   background: #f0f0f0;
 }
 
@@ -120,7 +119,7 @@ h1 {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .mental-being-container {
+  .mental-well-being-container {
     padding: 20px;
   }
 
@@ -141,3 +140,4 @@ h1 {
     padding: 10px;
   }
 }
+

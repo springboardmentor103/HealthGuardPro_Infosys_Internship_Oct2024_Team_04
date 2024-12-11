@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./nutrition.css";
 
+// Base set of questions with options
 const questions = [
   {
     id: 1,
@@ -109,6 +110,7 @@ const Nutrition = () => {
   const navigate = useNavigate();
   const [answers, setAnswers] = useState({});
 
+  // Handle option change for a given question
   const handleOptionChange = (questionId, option) => {
     setAnswers((prevAnswers) => ({
       ...prevAnswers,
@@ -116,8 +118,15 @@ const Nutrition = () => {
     }));
   };
 
+  // Handle form submission to calculate total score
   const handleSubmit = (e) => {
     e.preventDefault();
+    const totalScore = Object.values(answers).reduce((sum, score) => sum + score, 0);
+
+    // Save the score in localStorage (or directly to backend)
+    localStorage.setItem("nutritionScore", totalScore);
+
+    // Redirect to dashboard
     navigate("/dashboard");
   };
 
@@ -129,14 +138,15 @@ const Nutrition = () => {
           <div className="question-card" key={q.id}>
             <h3>{q.question}</h3>
             <div className="options-container">
+              {/* Render each option as a radio button */}
               {Object.entries(q.options).map(([option, score]) => (
                 <label key={option} className="option-label">
                   <input
                     type="radio"
-                    name={`question-${q.id}`}
+                    name={`question-${q.id}`}  // Fixed name issue by using template literals
                     value={score}
                     checked={answers[q.id] === score}
-                    onChange={() => handleOptionChange(q.id, score)}
+                    onChange={() => handleOptionChange(q.id, score)}  // Track the option selected for each question
                   />
                   {option}
                 </label>
@@ -144,9 +154,7 @@ const Nutrition = () => {
             </div>
           </div>
         ))}
-        <button type="submit" className="submit-btn">
-          Submit
-        </button>
+        <button type="submit" className="submit-btn">Submit</button>
       </form>
     </div>
   );
