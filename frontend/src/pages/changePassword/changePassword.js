@@ -102,12 +102,13 @@
 // export default ChangePassword;
 
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import "./changePassword.css";
 
 function ChangePassword() {
     const [newPassword, setNewPassword] = useState("");
     const [confirmNewPassword, setConfirmNewPassword] = useState("");
+    const navigate = useNavigate(); // Initialize useNavigate
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -141,7 +142,8 @@ function ChangePassword() {
             const data = await response.json();
 
             if (response.ok) {
-                alert(data.message); // Success alert
+                alert(data.message); // Show success message
+                navigate("/"); // Redirect to login page
             } else {
                 alert(data.message || "An error occurred while changing the password.");
             }

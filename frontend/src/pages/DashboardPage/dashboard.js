@@ -206,12 +206,13 @@ const DashboardPage = () => {
       lifestyle: parseFloat(localStorage.getItem("lifestyleScore")) || 0,
       biomarkers: parseFloat(localStorage.getItem("biomarkersScore")) || 0,
     };
-    const overallScore =
+    const overallScore = Math.round(
       (loadedScores.physicalFitness +
         loadedScores.nutrition +
         loadedScores.mentalWellBeing +
         loadedScores.lifestyle +
-        loadedScores.biomarkers) / 5;
+        loadedScores.biomarkers) / 5
+    );
     loadedScores.overallScore = overallScore;
     setScores(loadedScores);
   }, []);
