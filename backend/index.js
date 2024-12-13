@@ -43,7 +43,7 @@ const userRoutes =require('./routes/userRoutes');
 const otpRoutes = require('./routes/otpRoutes');
 const app = express();
 
-const nutritionRoutes = require('./routes/nutritionRoutes');
+// const nutritionRoutes = require('./routes/nutritionRoutes');
 
 // Enable CORS
 app.use(cors()); // Allow all origins by default
@@ -51,10 +51,10 @@ app.use(cors()); // Allow all origins by default
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
 
-app.use('/api/nutrition', nutritionRoutes);
+// app.use('/api/nutrition', nutritionRoutes);
 
 // API endpoints
-app.use('/api', nutritionRoutes);
+// app.use('/api', nutritionRoutes);
 
 // Connect to the database
 connectDB();
