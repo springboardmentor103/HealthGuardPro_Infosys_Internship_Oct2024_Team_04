@@ -1,32 +1,32 @@
-// Install all the deprndencies
+const express = require("express");
+const dotenv = require("dotenv");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const connectDB = require("./config/db");
+const authRoutes = require("./routes/authRoutes");
+const otpRoutes = require("./routes/otpRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes");
+const leaderboardRoutes = require("./routes/leaderboardRoutes");
+const assessmentRoutes = require("./routes/assessmentRoutes");
+const errorHandler = require("./Middleware/errorHandler");
 
-require('dotenv').config(); // Load environment variables
-const express = require('express');
-const cors = require('cors'); // Import CORS
-const bodyParser = require('body-parser');
-const connectDB = require('./config/database');
-const changePasswordRoutes = require('./routes/changePasswordRoutes');
-const userRoutes =require('./routes/userRoutes');
-const otpRoutes = require('./routes/otpRoutes');
+dotenv.config();
+
 const app = express();
+app.use(express.json());
+connectDB();
 
-// Enable CORS
-app.use(cors()); // Allow all origins by default
-
-// Middleware to parse JSON bodies
+app.use(cors());
 app.use(bodyParser.json());
 
-// Connect to the database
-connectDB();
-// Use the user routes
-app.use('/api/users', userRoutes); // Add the userRoutes middleware
-// Use the change password route
-app.use('/api', changePasswordRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/otp", otpRoutes);
+app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/leaderboard", leaderboardRoutes);
+app.use("/api/assessments", assessmentRoutes);
 
-// Use OTP routes
-  app.use('/api', otpRoutes);
-// Start the server
+// Error handling middleware
+app.use(errorHandler);
+
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
