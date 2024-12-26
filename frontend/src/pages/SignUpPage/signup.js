@@ -23,7 +23,7 @@ function Signup() {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/users/register", {
+      const response = await fetch("http://localhost:5000/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -34,7 +34,7 @@ function Signup() {
       });
 
       const data = await response.json();
-      if (response.status === 201) {
+      if (response.ok) {
         alert(data.message);
         navigate("/");
       } else {
@@ -51,6 +51,7 @@ function Signup() {
       <div className="signup-box">
         <h2 className="signup-title">Register</h2>
         <form onSubmit={handleSubmit}>
+        ...
           <input
             type="text"
             name="name"

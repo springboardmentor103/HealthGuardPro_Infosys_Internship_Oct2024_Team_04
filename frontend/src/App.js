@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DashboardPage from "./pages/DashboardPage/dashboard";
-import AssessmentFormPage from "./pages/DashboardPage/AssessmentFormPage/assessmentform"
+import AssessmentFormPage from "./pages/DashboardPage/AssessmentFormPage/assessmentform" // Updated path
 import Signup from "./pages/SignUpPage/signup";
 import Login from "./pages/LoginPage/login";
 import ForgotPasswordPage1 from "./pages/forgotPassword-1Page/forgotpassword-1";
@@ -34,44 +34,41 @@ import AboutUs from "./pages/DashboardPage/AboutUs/aboutus";
 
 function App() {
   return (
-    <>
     <Router>
       <Routes>
-      <Route path="/dashboard" element={<DashboardPage />}/>
-      <Route path="/assessment" element={<AssessmentFormPage />}/>
-      <Route path="/signup" element={<Signup />}/>
-      <Route index element={<Login />}/>
-      <Route path="/forgotPassword-1" element={<ForgotPasswordPage1 />} />
-      <Route path="/changePassword" element={<ChangePassword />} />
-      <Route path="/verifyOtp" element={<OtpVerificationPage />} />
-      <Route path="/physical-fitness" element={<PhysicalFitness />}/>
-      <Route path="/lifestyle" element={<Lifestyle />}/>
-      <Route path="/mental-well-being" element={<MentalWellBeing />}/>
-      <Route path="/biomarkers" element={<Biomarkers />}/>
-      <Route path="/nutrition" element={<Nutrition />}/>
-      <Route path="/blog" element={<Blogs />}/>
-      <Route path="/cancer" element={<Cancer />}/>
-      <Route path="/thyroid" element={<Thyroid />}/>
-      <Route path="/hypertension" element={<Hypertension />}/>
-      <Route path="/diabetes" element={<Diabetes />}/>
-      <Route path="/asthma" element={<Asthma />}/>
-      <Route path="/arthritis" element={<Arthritis />}/>
-      <Route path="/ayurveda" element={<Ayurveda />}/>
-      <Route path="/beauty" element={<Beauty />}/>
-      <Route path="/exercise" element={<Exercise />}/>
-      <Route path="/food&nutrition" element={<FoodNutrition />}/>
-      <Route path="/menhealth" element={<MenHealth />}/>
-      <Route path="/womenhealth" element={<WomenHealth />}/>
-      <Route path="/childcare" element={<ChildCare />}/>
-      <Route path="/bonehealth" element={<BoneHealth />}/>
-      <Route path="/oralhealth" element={<OralHealth />}/>
-      <Route path="/sleep" element={<Sleep />}/>
-      <Route path="/leaderboard" element={<Leaderboard />}/>
-      <Route path="/about-us" element={<AboutUs />}/>
-
+        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/assessment" element={<AssessmentFormPage />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/forgotPassword-1" element={<ForgotPasswordPage1 />} />
+        <Route path="/changePassword" element={<ChangePassword />} />
+        <Route path="/verifyOtp" element={<OtpVerificationPage />} />
+        <Route path="/physical-fitness" element={<PhysicalFitness />} />
+        <Route path="/lifestyle" element={<Lifestyle />} />
+        <Route path="/mental-well-being" element={<MentalWellBeing />} />
+        <Route path="/biomarkers" element={<Biomarkers />} />
+        <Route path="/nutrition" element={<Nutrition />} />
+        <Route path="/blog" element={<Blogs />} />
+        <Route path="/cancer" element={<Cancer />} />
+        <Route path="/thyroid" element={<Thyroid />} />
+        <Route path="/hypertension" element={<Hypertension />} />
+        <Route path="/diabetes" element={<Diabetes />} />
+        <Route path="/asthma" element={<Asthma />} />
+        <Route path="/arthritis" element={<Arthritis />} />
+        <Route path="/ayurveda" element={<Ayurveda />} />
+        <Route path="/beauty" element={<Beauty />} />
+        <Route path="/exercise" element={<Exercise />} />
+        <Route path="/food&nutrition" element={<FoodNutrition />} />
+        <Route path="/menhealth" element={<MenHealth />} />
+        <Route path="/womenhealth" element={<WomenHealth />} />
+        <Route path="/childcare" element={<ChildCare />} />
+        <Route path="/bonehealth" element={<BoneHealth />} />
+        <Route path="/oralhealth" element={<OralHealth />} />
+        <Route path="/sleep" element={<Sleep />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/about-us" element={<AboutUs />} />
       </Routes>
     </Router>
-    </>
   );
 }
 

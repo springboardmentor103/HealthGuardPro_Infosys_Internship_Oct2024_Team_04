@@ -197,24 +197,28 @@ const DashboardPage = () => {
     overallScore: 0,
   });
 
-  // Load scores from localStorage when component mounts
+  // Load scores from backend when component mounts
   useEffect(() => {
-    const loadedScores = {
-      physicalFitness: parseFloat(localStorage.getItem("physicalFitnessScore")) || 0,
-      nutrition: parseFloat(localStorage.getItem("nutritionScore")) || 0,
-      mentalWellBeing: parseFloat(localStorage.getItem("mentalWellBeingScore")) || 0,
-      lifestyle: parseFloat(localStorage.getItem("lifestyleScore")) || 0,
-      biomarkers: parseFloat(localStorage.getItem("biomarkersScore")) || 0,
+    const fetchScores = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/dashboard/scores`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        const data = await response.json();
+        if (response.ok) {
+          setScores(data.scores);
+        } else {
+          console.error(data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching scores:", error);
+      }
     };
-    const overallScore = Math.round(
-      (loadedScores.physicalFitness +
-        loadedScores.nutrition +
-        loadedScores.mentalWellBeing +
-        loadedScores.lifestyle +
-        loadedScores.biomarkers) / 5
-    );
-    loadedScores.overallScore = overallScore;
-    setScores(loadedScores);
+
+    fetchScores();
   }, []);
 
   const handleLogout = () => {
@@ -223,7 +227,8 @@ const DashboardPage = () => {
 
   const confirmLogout = (confirm) => {
     if (confirm) {
-      localStorage.removeItem("loggedInEmail");
+      localStorage.removeItem("token");
+      localStorage.removeItem("email");
       navigate("/");
     }
     setLogoutConfirm(false);
@@ -231,7 +236,6 @@ const DashboardPage = () => {
 
   return (
     <div className="dashboard-container">
-      {/* Sidebar / Navbar */}
       <div className={`sidebar ${isMenuOpen ? "open" : ""}`}>
         <div className="menu">
           <button onClick={() => navigate("/assessment")}>Take Assessment</button>
@@ -242,12 +246,10 @@ const DashboardPage = () => {
         </div>
       </div>
 
-      {/* Hamburger / Close Button */}
       <div className="hamburger" onClick={() => setIsMenuOpen(!isMenuOpen)}>
         {isMenuOpen ? "✖" : "☰"}
       </div>
 
-      {/* Logout confirmation popup */}
       {logoutConfirm && (
         <div className="logout-popup">
           <div className="popup-content">
@@ -295,3 +297,4 @@ const DashboardPage = () => {
 };
 
 export default DashboardPage;
+

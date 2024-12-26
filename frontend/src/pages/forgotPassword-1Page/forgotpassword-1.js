@@ -61,7 +61,7 @@ function ForgotPasswordPage1() {
 
     try {
       // Send the email to the backend to generate and send OTP
-      const response = await fetch('http://localhost:5000/api/send-otp', {
+      const response = await fetch('http://localhost:5000/api/otp/send-otp', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

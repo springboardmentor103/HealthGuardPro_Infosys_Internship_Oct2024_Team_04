@@ -113,6 +113,7 @@
 // }
 
 // export default Login;
+// /frontend/src/components/Login.js
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./login.css";
@@ -131,17 +132,17 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/api/users/login", {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
       const data = await response.json();
-      if (response.status === 200) {
+      if (response.ok) {
         alert(data.message);
-        localStorage.setItem("token", data.token); // Save token for authentication
-        localStorage.setItem("email", formData.email); // Save email after successful login
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("email", formData.email);
         navigate("/dashboard", { state: { username: data.username } });
       } else {
         alert(data.message);

@@ -109,22 +109,42 @@ const Biomarkers = () => {
   const navigate = useNavigate();
   const [answers, setAnswers] = useState({});
 
-  const handleOptionChange = (questionId, option) => {
+  const handleOptionChange = (questionId, score) => {
     setAnswers((prevAnswers) => ({
       ...prevAnswers,
-      [questionId]: option,
+      [questionId]: score,
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const totalScore = Object.values(answers).reduce((sum, score) => sum + score, 0);
 
-    // Save the score in localStorage (or directly to backend)
-    localStorage.setItem("biomarkersScore", totalScore);
+    try {
+      const response = await fetch("http://localhost:5000/api/assessments/save-score", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          email: localStorage.getItem("email"),
+          category: "biomarkers",
+          score: totalScore,
+        }),
+      });
 
-    // Redirect to dashboard
-    navigate("/dashboard");
+      const data = await response.json();
+      if (response.ok) {
+        alert(data.message);
+        navigate("/dashboard");
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred while processing your request.");
+    }
   };
 
   return (
@@ -157,6 +177,7 @@ const Biomarkers = () => {
 };
 
 export default Biomarkers;
+
 
 
 

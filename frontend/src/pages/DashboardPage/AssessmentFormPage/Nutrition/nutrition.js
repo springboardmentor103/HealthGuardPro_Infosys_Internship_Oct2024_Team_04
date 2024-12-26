@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./nutrition.css";
 
-// Base set of questions with options
 const questions = [
   {
     id: 1,
@@ -110,24 +109,43 @@ const Nutrition = () => {
   const navigate = useNavigate();
   const [answers, setAnswers] = useState({});
 
-  // Handle option change for a given question
-  const handleOptionChange = (questionId, option) => {
+  const handleOptionChange = (questionId, score) => {
+    
     setAnswers((prevAnswers) => ({
       ...prevAnswers,
-      [questionId]: option,
+      [questionId]: score,
     }));
   };
 
-  // Handle form submission to calculate total score
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const totalScore = Object.values(answers).reduce((sum, score) => sum + score, 0);
 
-    // Save the score in localStorage (or directly to backend)
-    localStorage.setItem("nutritionScore", totalScore);
+    try {
+      const response = await fetch("http://localhost:5000/api/assessments/save-score", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          email: localStorage.getItem("email"),
+          category: "nutrition",
+          score: totalScore,
+        }),
+      });
 
-    // Redirect to dashboard
-    navigate("/dashboard");
+      const data = await response.json();
+      if (response.ok) {
+        alert(data.message);
+        navigate("/dashboard");
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred while processing your request.");
+    }
   };
 
   return (
@@ -138,15 +156,14 @@ const Nutrition = () => {
           <div className="question-card" key={q.id}>
             <h3>{q.question}</h3>
             <div className="options-container">
-              {/* Render each option as a radio button */}
               {Object.entries(q.options).map(([option, score]) => (
                 <label key={option} className="option-label">
                   <input
                     type="radio"
-                    name={`question-${q.id}`}  // Fixed name issue by using template literals
+                    name={`question-${q.id}`}
                     value={score}
                     checked={answers[q.id] === score}
-                    onChange={() => handleOptionChange(q.id, score)}  // Track the option selected for each question
+                    onChange={() => handleOptionChange(q.id, score)}
                   />
                   {option}
                 </label>
@@ -161,3 +178,4 @@ const Nutrition = () => {
 };
 
 export default Nutrition;
+
