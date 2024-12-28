@@ -1,7 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import ProtectedRoute from "./components/protectedRoutes";
 import DashboardPage from "./pages/DashboardPage/dashboard";
-import AssessmentFormPage from "./pages/DashboardPage/AssessmentFormPage/assessmentform" // Updated path
+import AssessmentFormPage from "./pages/DashboardPage/AssessmentFormPage/assessmentform";
 import Signup from "./pages/SignUpPage/signup";
 import Login from "./pages/LoginPage/login";
 import ForgotPasswordPage1 from "./pages/forgotPassword-1Page/forgotpassword-1";
@@ -33,40 +34,54 @@ import Leaderboard from "./pages/DashboardPage/Leaderboard/leaderboard";
 import AboutUs from "./pages/DashboardPage/AboutUs/aboutus";
 
 function App() {
+  // All routes
+  const routes = [
+    { path: "/dashboard", element: <DashboardPage /> },
+    { path: "/assessment", element: <AssessmentFormPage /> },
+    { path: "/physical-fitness", element: <PhysicalFitness /> },
+    { path: "/lifestyle", element: <Lifestyle /> },
+    { path: "/mental-well-being", element: <MentalWellBeing /> },
+    { path: "/biomarkers", element: <Biomarkers /> },
+    { path: "/nutrition", element: <Nutrition /> },
+    { path: "/blog", element: <Blogs /> },
+    { path: "/cancer", element: <Cancer /> },
+    { path: "/thyroid", element: <Thyroid /> },
+    { path: "/hypertension", element: <Hypertension /> },
+    { path: "/diabetes", element: <Diabetes /> },
+    { path: "/asthma", element: <Asthma /> },
+    { path: "/arthritis", element: <Arthritis /> },
+    { path: "/ayurveda", element: <Ayurveda /> },
+    { path: "/beauty", element: <Beauty /> },
+    { path: "/exercise", element: <Exercise /> },
+    { path: "/food&nutrition", element: <FoodNutrition /> },
+    { path: "/menhealth", element: <MenHealth /> },
+    { path: "/womenhealth", element: <WomenHealth /> },
+    { path: "/childcare", element: <ChildCare /> },
+    { path: "/bonehealth", element: <BoneHealth /> },
+    { path: "/oralhealth", element: <OralHealth /> },
+    { path: "/sleep", element: <Sleep /> },
+    { path: "/leaderboard", element: <Leaderboard /> },
+    { path: "/about-us", element: <AboutUs /> },
+  ];
+
   return (
     <Router>
       <Routes>
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/assessment" element={<AssessmentFormPage />} />
-        <Route path="/signup" element={<Signup />} />
+        {/* Unprotected Routes */}
         <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/forgotPassword-1" element={<ForgotPasswordPage1 />} />
         <Route path="/changePassword" element={<ChangePassword />} />
         <Route path="/verifyOtp" element={<OtpVerificationPage />} />
-        <Route path="/physical-fitness" element={<PhysicalFitness />} />
-        <Route path="/lifestyle" element={<Lifestyle />} />
-        <Route path="/mental-well-being" element={<MentalWellBeing />} />
-        <Route path="/biomarkers" element={<Biomarkers />} />
-        <Route path="/nutrition" element={<Nutrition />} />
-        <Route path="/blog" element={<Blogs />} />
-        <Route path="/cancer" element={<Cancer />} />
-        <Route path="/thyroid" element={<Thyroid />} />
-        <Route path="/hypertension" element={<Hypertension />} />
-        <Route path="/diabetes" element={<Diabetes />} />
-        <Route path="/asthma" element={<Asthma />} />
-        <Route path="/arthritis" element={<Arthritis />} />
-        <Route path="/ayurveda" element={<Ayurveda />} />
-        <Route path="/beauty" element={<Beauty />} />
-        <Route path="/exercise" element={<Exercise />} />
-        <Route path="/food&nutrition" element={<FoodNutrition />} />
-        <Route path="/menhealth" element={<MenHealth />} />
-        <Route path="/womenhealth" element={<WomenHealth />} />
-        <Route path="/childcare" element={<ChildCare />} />
-        <Route path="/bonehealth" element={<BoneHealth />} />
-        <Route path="/oralhealth" element={<OralHealth />} />
-        <Route path="/sleep" element={<Sleep />} />
-        <Route path="/leaderboard" element={<Leaderboard />} />
-        <Route path="/about-us" element={<AboutUs />} />
+
+        {/* Protected Routes */}
+        {routes.map((route) => (
+          <Route
+            key={route.path}
+            path={route.path}
+            element={<ProtectedRoute>{route.element}</ProtectedRoute>}
+          />
+        ))}
       </Routes>
     </Router>
   );
