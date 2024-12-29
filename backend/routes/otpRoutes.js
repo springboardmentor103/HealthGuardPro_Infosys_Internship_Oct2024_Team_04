@@ -59,9 +59,6 @@ router.post("/send-otp", async (req, res) => {
   }
 });
 
-
-
-
 // Verify OTP
 router.post("/verify-otp", async (req, res) => {
   const { email, otp } = req.body;
@@ -71,7 +68,7 @@ router.post("/verify-otp", async (req, res) => {
   }
 
   try {
-    // Find the OTP record
+    // Find the OTP record in the database
     const otpRecord = await OTP.findOne({ email, otp });
 
     // Check if the OTP exists and is valid
@@ -79,11 +76,12 @@ router.post("/verify-otp", async (req, res) => {
       return res.status(400).json({ message: "Invalid OTP" });
     }
 
+    // Check if OTP has expired
     if (Date.now() > otpRecord.expiresAt) {
       return res.status(400).json({ message: "OTP has expired" });
     }
 
-    // If valid, remove the OTP record to prevent reuse
+    // If OTP is valid, remove it from the database to prevent reuse
     await OTP.deleteOne({ email, otp });
 
     res.status(200).json({ message: "OTP verified successfully" });
@@ -94,3 +92,4 @@ router.post("/verify-otp", async (req, res) => {
 });
 
 module.exports = router;
+

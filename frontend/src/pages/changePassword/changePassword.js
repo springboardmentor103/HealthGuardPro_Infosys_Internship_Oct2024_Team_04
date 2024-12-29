@@ -102,7 +102,7 @@
 // export default ChangePassword;
 
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./changePassword.css";
 
 function ChangePassword() {
