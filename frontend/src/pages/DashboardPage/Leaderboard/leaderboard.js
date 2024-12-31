@@ -5,10 +5,14 @@ import "./leaderboard.css";
 const Leaderboard = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
+      setLoading(true);
+      setError(null);
       try {
         const response = await fetch("http://localhost:5000/api/leaderboard", {
           method: "GET",
@@ -16,14 +20,21 @@ const Leaderboard = () => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
+
         const data = await response.json();
         if (response.ok) {
-          setUsers(data);
+          const filteredUsers = data.filter(
+            (user) => user.scores?.overallScore > 0
+          );
+          setUsers(filteredUsers);
         } else {
-          console.error(data.message);
+          setError(data.message || "Failed to fetch leaderboard data");
         }
-      } catch (error) {
-        console.error("Error fetching leaderboard:", error);
+      } catch (err) {
+        setError("Error fetching leaderboard data");
+        console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -38,37 +49,62 @@ const Leaderboard = () => {
     setSelectedUser(null);
   };
 
+  if (loading) {
+    return <div className="leaderboard-container">Loading...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="leaderboard-container">
+        <h1>Error</h1>
+        <p>{error}</p>
+        <button className="back-btn" onClick={() => navigate("/dashboard")}>
+          Back to Dashboard
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="leaderboard-container">
       <h1>Leaderboard</h1>
-      <table className="leaderboard-table">
-        <thead>
-          <tr>
-            <th>Rank</th>
-            <th>Username</th>
-            <th>Last Assessment</th>
-            <th>Overall Score</th>
-            <th>View</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user, index) => (
-            <tr key={user._id}>
-              <td>{index + 1}</td>
-              <td>{user.username}</td>
-              <td>{new Date(user.updatedAt).toLocaleDateString()}</td>
-              <td>{user.scores.overallScore}</td>
-              <td>
-                <button className="view-btn" onClick={() => handleViewScores(user)}>View</button>
-              </td>
+      {users.length > 0 ? (
+        <table className="leaderboard-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Username</th>
+              <th>Last Assessment</th>
+              <th>Overall Score</th>
+              <th>View</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {users.map((user, index) => (
+              <tr key={user._id}>
+                <td>{index + 1}</td>
+                <td>{user.username}</td>
+                <td>{new Date(user.updatedAt).toLocaleDateString()}</td>
+                <td>{user.scores.overallScore}</td>
+                <td>
+                  <button
+                    className="view-btn"
+                    onClick={() => handleViewScores(user)}
+                  >
+                    View
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p>No users have taken the assessment yet.</p>
+      )}
       <button className="back-btn" onClick={() => navigate("/dashboard")}>
         Back to Dashboard
       </button>
-      
+
       {selectedUser && (
         <div className="popup-overlay">
           <div className="popup-content">
@@ -81,33 +117,17 @@ const Leaderboard = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Physical Fitness</td>
-                  <td>{selectedUser.scores.physicalFitness}</td>
-                </tr>
-                <tr>
-                  <td>Nutrition</td>
-                  <td>{selectedUser.scores.nutrition}</td>
-                </tr>
-                <tr>
-                  <td>Mental Well-Being</td>
-                  <td>{selectedUser.scores.mentalWellBeing}</td>
-                </tr>
-                <tr>
-                  <td>Lifestyle</td>
-                  <td>{selectedUser.scores.lifestyle}</td>
-                </tr>
-                <tr>
-                  <td>Biomarkers</td>
-                  <td>{selectedUser.scores.biomarkers}</td>
-                </tr>
-                <tr>
-                  <td>Overall Score</td>
-                  <td>{selectedUser.scores.overallScore}</td>
-                </tr>
+                {Object.entries(selectedUser.scores || {}).map(([key, value]) => (
+                  <tr key={key}>
+                    <td>{key}</td>
+                    <td>{value}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
-            <button className="close-btn" onClick={closePopup}>Close</button>
+            <button className="close-btn" onClick={closePopup}>
+              Close
+            </button>
           </div>
         </div>
       )}
@@ -116,6 +136,7 @@ const Leaderboard = () => {
 };
 
 export default Leaderboard;
+
 
 
 

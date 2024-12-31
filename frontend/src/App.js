@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./components/protectedRoutes";
+import PublicRoute from "./components/publicRoutes"; // For unprotected routes
 import DashboardPage from "./pages/DashboardPage/dashboard";
 import AssessmentFormPage from "./pages/DashboardPage/AssessmentFormPage/assessmentform";
 import Signup from "./pages/SignUpPage/signup";
@@ -34,8 +35,7 @@ import Leaderboard from "./pages/DashboardPage/Leaderboard/leaderboard";
 import AboutUs from "./pages/DashboardPage/AboutUs/aboutus";
 
 function App() {
-  // All routes
-  const routes = [
+  const authenticatedRoutes = [
     { path: "/dashboard", element: <DashboardPage /> },
     { path: "/assessment", element: <AssessmentFormPage /> },
     { path: "/physical-fitness", element: <PhysicalFitness /> },
@@ -67,15 +67,50 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Unprotected Routes */}
-        <Route path="/" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/forgotPassword-1" element={<ForgotPasswordPage1 />} />
-        <Route path="/changePassword" element={<ChangePassword />} />
-        <Route path="/verifyOtp" element={<OtpVerificationPage />} />
+        {/* Public Routes */}
+        <Route
+          path="/"
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <PublicRoute>
+              <Signup />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/forgotPassword-1"
+          element={
+            <PublicRoute>
+              <ForgotPasswordPage1 />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/changePassword"
+          element={
+            <PublicRoute>
+              <ChangePassword />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/verifyOtp"
+          element={
+            <PublicRoute>
+              <OtpVerificationPage />
+            </PublicRoute>
+          }
+        />
 
         {/* Protected Routes */}
-        {routes.map((route) => (
+        {authenticatedRoutes.map((route) => (
           <Route
             key={route.path}
             path={route.path}
