@@ -184,7 +184,7 @@ const CircleProgress = ({ score }) => {
 
 const DashboardPage = () => {
   const location = useLocation();
-  const username = location.state?.username || "Guest";
+  const username = location.state?.username || "";
   const navigate = useNavigate();
   const [logoutConfirm, setLogoutConfirm] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -263,7 +263,7 @@ const DashboardPage = () => {
       )}
 
       <div className="main-content">
-        <h1>Welcome, {username}!!</h1>
+        <h1>Welcome {username}!!</h1>
         <h2>Your Health Scores</h2>
         <div className="score-cards">
           <div className="score-card">
