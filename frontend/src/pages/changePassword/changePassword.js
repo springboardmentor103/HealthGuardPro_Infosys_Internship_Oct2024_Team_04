@@ -10,42 +10,49 @@ function ChangePassword() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate that the new passwords match
     if (newPassword !== confirmNewPassword) {
-      alert("New passwords do not match. Please try again.");
+      alert("Passwords do not match");
+      return;
+    }
+
+    const email = localStorage.getItem("resetEmail");
+
+    if (!email) {
+      alert("Session expired. Please restart password reset.");
+      navigate("/");
       return;
     }
 
     try {
-      const email = localStorage.getItem("email");
-      if (!email) {
-        alert("Unable to retrieve user email. Please log in again.");
-        return;
-      }
-
-      const response = await fetch("http://localhost:5000/api/auth/change-password", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({
-          email: email,
-          newPassword: newPassword,
-        }),
-      });
+      const response = await fetch(
+        "http://localhost:5000/api/auth/change-password",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            newPassword,
+          }),
+        }
+      );
 
       const data = await response.json();
 
       if (response.ok) {
-        alert(data.message); // Show success message
-        navigate("/"); // Redirect to login page
+        alert(data.message);
+
+        // 🧹 Cleanup
+        localStorage.removeItem("resetEmail");
+
+        navigate("/");
       } else {
-        alert(data.message || "An error occurred while changing the password.");
+        alert(data.message || "Failed to change password");
       }
     } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred while processing your request.");
+      console.error(error);
+      alert("Server error. Try again.");
     }
   };
 
@@ -80,4 +87,5 @@ function ChangePassword() {
 }
 
 export default ChangePassword;
+
 

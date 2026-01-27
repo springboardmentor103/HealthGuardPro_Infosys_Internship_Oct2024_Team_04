@@ -8,16 +8,27 @@ const router = express.Router();
 // Ensure environment variables are loaded
 require("dotenv").config();
 
-// Create the Nodemailer transporter
+// Debug: prove env vars are loaded (temporary)
+console.log("EMAIL_USER =", process.env.EMAIL_USER);
+console.log("EMAIL_PASS =", process.env.EMAIL_PASS ? '[present]' : process.env.EMAIL_PASS);
+
+// Create the Nodemailer transporter (use explicit host/port for clarity)
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
-  debug: true, // Enable debug messages
-  logger: true, // Log to console
+  debug: true,
+  logger: true,
 });
+
+// Verify transporter credentials at startup (helpful to fail fast)
+transporter.verify()
+  .then(() => console.log("SMTP ready"))
+  .catch((err) => console.error("SMTP verify failed:", err.message || err));
 
 // Send OTP
 router.post("/send-otp", async (req, res) => {
@@ -32,8 +43,14 @@ router.post("/send-otp", async (req, res) => {
     const otp = crypto.randomInt(100000, 999999).toString();
     const otpExpiry = Date.now() + 5 * 60 * 1000; // 5 minutes expiry
 
-    // Save the OTP to the database
-    await OTP.create({ email, otp, expiresAt: otpExpiry });
+    // Validate email credentials exist
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+      console.error("Missing EMAIL_USER or EMAIL_PASS in environment");
+      return res.status(500).json({ message: "Mail credentials not configured" });
+    }
+
+    // Save the OTP to the database (expiresAt used for TTL)
+    await OTP.create({ email, otp, expiresAt: new Date(otpExpiry) });
 
     // Email options
     const mailOptions = {
@@ -47,7 +64,7 @@ router.post("/send-otp", async (req, res) => {
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.error("Error sending email:", error);
-        return res.status(500).json({ message: "Error sending OTP", error });
+        return res.status(500).json({ message: "Error sending OTP", error: error.message || error });
       }
 
       console.log("OTP email sent:", info.response);

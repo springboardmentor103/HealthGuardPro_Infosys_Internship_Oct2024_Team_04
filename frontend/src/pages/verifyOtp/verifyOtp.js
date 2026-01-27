@@ -4,35 +4,47 @@ import "./verifyOtp.css";
 
 function OtpVerificationPage() {
   const [otp, setOtp] = useState("");
-  const [error, setError] = useState(""); // To hold error messages from the backend
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-  const email = location.state?.email || "";
+
+  const email = location.state?.email;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!email) {
+      setError("Email not found. Please restart the process.");
+      return;
+    }
+
     try {
-      const response = await fetch("http://localhost:5000/api/otp/verify-otp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, otp }),
-      });
+      const response = await fetch(
+        "http://localhost:5000/api/otp/verify-otp",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, otp }),
+        }
+      );
 
       const data = await response.json();
+
       if (response.ok) {
-        alert(data.message); // Alert on successful verification
-        navigate("/changePassword", { state: { email } }); // Navigate to change password page
+        alert(data.message);
+
+        // 🔑 Store email temporarily for change password
+        localStorage.setItem("resetEmail", email);
+
+        navigate("/changePassword");
       } else {
-        // If OTP is incorrect, set the error message
-        alert("Enter the correct OTP!"); 
-        setError(data.message || "Invalid OTP. Please try again.");
+        setError(data.message || "Invalid or expired OTP");
       }
-    } catch (error) {
-      console.error("Error verifying OTP:", error);
-      setError("Error verifying OTP. Please try again.");
+    } catch (err) {
+      console.error(err);
+      setError("Something went wrong. Try again.");
     }
   };
 
@@ -49,13 +61,17 @@ function OtpVerificationPage() {
             onChange={(e) => setOtp(e.target.value)}
             required
           />
-          <button type="submit" className="otp-btn">Verify OTP</button>
+          <button type="submit" className="otp-btn">
+            Verify OTP
+          </button>
         </form>
-        {error && <p className="error-message">{error}</p>} {/* Display error message */}
+
+        {error && <p className="error-message">{error}</p>}
       </div>
     </div>
   );
 }
 
 export default OtpVerificationPage;
+
 
