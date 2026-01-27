@@ -19,69 +19,143 @@ Here we will track the health status of the user.
 HealthGuard Pro is a health tracking application that allows users to sign up, log in, and manage their health data. The application includes features such as password reset, OTP verification, and more.
 
 ## Project Structure
+```
 HealthGuardPro/
 │
 ├── backend/
 │   ├── config/
-│   │   └── database.js
-│   ├── controllers/
-│   │   ├── quizController.js
-│   │   └── userController.js
-│   ├── middleware/
-│   │   └── authenticate.js
+│   │   └── db.js
+│   ├── Middleware/
+│   │   ├── auth.js
+│   │   └── errorHandler.js
 │   ├── models/
-│   │   └── User.js
+│   │   ├── OTP.js
+│   │   └── user.js
+│   ├── public/
+│   │   ├── index.html
+│   │   ├── manifest.json
+│   │   └── robots.txt
 │   ├── routes/
-│   │   ├── quizRoutes.js
-│   │   └── userRoutes.js
+│   │   ├── assessmentRoutes.js
+│   │   ├── authRoutes.js
+│   │   ├── dashboardRoutes.js
+│   │   ├── leaderboardRoutes.js
+│   │   └── otpRoutes.js
+│   ├── src/
+│   │   ├── App.css
+│   │   ├── App.js
+│   │   ├── App.test.js
+│   │   ├── index.css
+│   │   ├── index.js
+│   │   ├── reportWebVitals.js
+│   │   └── setupTests.js
 │   ├── .env
-│   └── server.js
+│   ├── .gitignore
+│   ├── index.js
+│   ├── package.json
+│   └── README.md
 │
 ├── frontend/
+│   ├── public/
+│   │   ├── index.html
+│   │   ├── manifest.json
+│   │   └── robots.txt
 │   ├── src/
-│   │   ├── pages/
-│   │   │   ├── LoginPage/
-│   │   │   │   └── login.js
-│   │   │   ├── SignUpPage/
-│   │   │   │   └── signup.js
-│   │   │   ├── forgotPassword-1Page/
-│   │   │   │   └── forgotpassword-1.js
-│   │   │   ├── verifyOtp/
-│   │   │   │   └── verifyOtp.js
-│   │   │   ├── changePassword/
-│   │   │   │   └── changePassword.js
-│   │   │   ├── DashboardPage/
-│   │   │   │   ├── dashboard.js
-│   │   │   │   ├── AssessmentFormPage/
-│   │   │   │   │   ├── assessmentform.js
-│   │   │   │   │   ├── PhysicalFitness/
-│   │   │   │   │   │   └── physicalFitness.js
-│   │   │   │   │   ├── Lifestyle/
-│   │   │   │   │   │   └── lifestyle.js
-│   │   │   │   │   ├── MentalBeing/
-│   │   │   │   │   │   └── mentalBeing.js
-│   │   │   │   │   ├── Biomarkers/
-│   │   │   │   │   │   └── biomarkers.js
-│   │   │   │   │   ├── Nutrition/
-│   │   │   │   │   │   └── nutrition.js
-│   │   │   │   ├── Blogs/
-│   │   │   │   │   ├── Chronic Ailments/
-│   │   │   │   │   │   └── Cancer/cancer.js
-│   │   │   │   │   │   └── Thyroid/thyroid.js
-│   │   │   │   │   └── ...
-│   │   │   │   ├── Leaderboard/
-│   │   │   │   │   └── leaderboard.js
-│   │   │   │   ├── AboutUs/
-│   │   │   │   │   └── aboutus.js
-│   │   ├── styles/
-│   │   │   ├── login.css
-│   │   │   ├── signup.css
-│   │   │   ├── ...
+│   │   ├── App.css
+│   │   ├── App.js
+│   │   ├── App.test.js
+│   │   ├── index.css
+│   │   ├── index.js
+│   │   ├── reportWebVitals.js
+│   │   ├── setupTests.js
 │   │   ├── components/
 │   │   │   ├── protectedRoutes.js
 │   │   │   └── publicRoutes.js
+│   │   └── pages/
+│   │       ├── LoginPage/
+│   │       │   ├── login.css
+│   │       │   └── login.js
+│   │       ├── SignUpPage/
+│   │       │   ├── signup.css
+│   │       │   └── signup.js
+│   │       ├── forgotPassword-1Page/
+│   │       │   ├── forgotPassword-1.css
+│   │       │   └── forgotpassword-1.js
+│   │       ├── verifyOtp/
+│   │       │   ├── verifyOtp.css
+│   │       │   └── verifyOtp.js
+│   │       ├── changePassword/
+│   │       │   ├── changePassword.css
+│   │       │   └── changePassword.js
+│   │       └── DashboardPage/
+│   │           ├── dashboard.css
+│   │           ├── dashboard.js
+│   │           ├── progress.css
+│   │           ├── AboutUs/
+│   │           │   ├── aboutus.css
+│   │           │   └── aboutus.js
+│   │           ├── AssessmentFormPage/
+│   │           │   ├── assessmentForm.css
+│   │           │   ├── assessmentform.js
+│   │           │   ├── Biomarkers/
+│   │           │   │   ├── biomarkers.css
+│   │           │   │   └── biomarkers.js
+│   │           │   ├── Lifestyle/
+│   │           │   │   ├── lifestyle.css
+│   │           │   │   └── lifestyle.js
+│   │           │   ├── MentalBeing/
+│   │           │   │   ├── mentalBeing.css
+│   │           │   │   └── mentalBeing.js
+│   │           │   ├── Nutrition/
+│   │           │   │   ├── nutrition.css
+│   │           │   │   └── nutrition.js
+│   │           │   └── PhysicalFitness/
+│   │           │       ├── physicalFitness.css
+│   │           │       └── physicalFitness.js
+│   │           ├── Blogs/
+│   │           │   ├── blogs.css
+│   │           │   ├── blogs.js
+│   │           │   ├── Chronic Ailments/
+│   │           │   │   ├── Arthritis/
+│   │           │   │   │   ├── arthritis.css
+│   │           │   │   │   └── arthritis.js
+│   │           │   │   ├── Asthma/
+│   │           │   │   │   ├── asthma.css
+│   │           │   │   │   └── asthma.js
+│   │           │   │   ├── Cancer/
+│   │           │   │   │   ├── cancer.css
+│   │           │   │   │   └── cancer.js
+│   │           │   │   ├── Diabetes/
+│   │           │   │   │   ├── diabetes.css
+│   │           │   │   │   └── diabetes.js
+│   │           │   │   ├── Hypertension/
+│   │           │   │   │   ├── hypertension.css
+│   │           │   │   │   └── hypertension.js
+│   │           │   │   └── Thyroid/
+│   │           │   │       ├── thyroid.css
+│   │           │   │       └── thyroid.js
+│   │           │   ├── Lifestyle/
+│   │           │   │   ├── Ayurveda/
+│   │           │   │   ├── Beauty/
+│   │           │   │   ├── Exercise/
+│   │           │   │   └── Food&Nutrition/
+│   │           │   └── Wellness/
+│   │           │       ├── boneHealth/
+│   │           │       ├── childCare/
+│   │           │       ├── menHealth/
+│   │           │       ├── oralHealth/
+│   │           │       ├── sleep/
+│   │           │       └── womenHealth/
+│   │           └── Leaderboard/
+│   │               ├── leaderboard.css
+│   │               └── leaderboard.js
+│   ├── .gitignore
 │   ├── package.json
-│   └── README.md 
+│   └── README.md
+│
+├── LICENSE
+└── README.md
+``` 
 
 ## Setup Instructions
 
@@ -108,15 +182,18 @@ HealthGuardPro/
 3. Create a .env file in the backend directory with the following content:
 
     plaintext
-    MONGODB_URI=mongodb+srv://healthguardpro2024:health2024@cluster0.liupn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+    MONGODB_URI=mongodb+srv://charanaryan08_db_user:KZI6dD09mxPqcqmW@cluster0.aixai6y.mongodb.net/?appName=Cluster0
     PORT=5000
     JWT_SECRET=mysecretkey
+    EMAIL_USER=charanaryan08@gmail.com
+    EMAIL_PASS=ogvrgesgnccgdtlt
     
 
 4. Start the backend server:
 
-    sh
-    npx node
+    ```sh
+    node index.js
+    ```
     
 
 ### Frontend Setup
@@ -141,76 +218,112 @@ HealthGuardPro/
 
 ## Running the Application
 
-1. Ensure MongoDB is running locally or that you have a valid connection string for MongoDB Atlas.
-2. Start the backend server by running npm run dev in the backend directory.
-3. Start the frontend server by running npm start in the frontend directory.
-4. Open your browser and navigate to http://localhost:3000 to view the application.
+1. **Start Backend Server**:
+   - Navigate to the backend directory: `cd backend`
+   - Run: `node index.js`
+   - The backend server will start on the port specified in your `.env` file (default: 5000)
+
+2. **Start Frontend Development Server**:
+   - Navigate to the frontend directory: `cd frontend`
+   - Run: `npm start`
+   - The frontend will automatically open in your default browser at `http://localhost:3000`
+
+3. **Ensure MongoDB Connection**:
+   - Ensure MongoDB is running locally or that you have a valid MongoDB Atlas connection string in the `.env` file
 
 ## API Endpoints
 
+All API endpoints are prefixed with `/api`
 
-### User Registration
+### Authentication Routes (`/api/auth`)
 
-- *Endpoint*: /api/users/register
+#### User Registration
+- *Endpoint*: `/api/auth/register`
 - *Method*: POST
-- *Description*: Registers a new user.
+- *Description*: Registers a new user
 - *Request Body*:
-    json
+    ```json
     {
-        "fullName": "Ram Raj",
-        "email": "Ram.Raj@example.com",
+        "fullName": "John Doe",
+        "email": "john@example.com",
         "password": "password123"
     }
-    
+    ```
 
-### User Login
-
-- *Endpoint*: /api/users/login
+#### User Login
+- *Endpoint*: `/api/auth/login`
 - *Method*: POST
-- *Description*: Authenticates a user.
+- *Description*: Authenticates a user and returns JWT token
 - *Request Body*:
-    json
+    ```json
     {
-        "email": "Ram.Raj@example.com",
+        "email": "john@example.com",
         "password": "password123"
     }
-    
+    ```
 
-### Password Reset
+### OTP Routes (`/api/otp`)
 
-- *Endpoint*: /api/forgot-password
+#### Send OTP
+- *Endpoint*: `/api/otp/send`
 - *Method*: POST
-- *Description*: Sends an OTP to the user's email for password reset.
+- *Description*: Sends OTP to user's email for password reset
 - *Request Body*:
-    json
+    ```json
     {
-        "email": "Ram.Raj@example.com"
+        "email": "john@example.com"
     }
-    
+    ```
 
-### Health Tracking
-- *Endpoint*: /api/quiz/update-score
+#### Verify OTP
+- *Endpoint*: `/api/otp/verify`
 - *Method*: POST
-- *Description*: Records user's health metrics
+- *Description*: Verifies the OTP sent to user's email
 - *Request Body*:
-    json
+    ```json
     {
-        "email": "Ram.Raj@example.com",
+        "email": "john@example.com",
+        "otp": "123456"
+    }
+    ```
+
+### Dashboard Routes (`/api/dashboard`)
+
+#### Get Dashboard Data
+- *Endpoint*: `/api/dashboard`
+- *Method*: GET
+- *Description*: Retrieves user's dashboard data including health metrics
+- *Headers*: Authorization: Bearer {token}
+
+### Assessment Routes (`/api/assessments`)
+
+#### Submit Assessment
+- *Endpoint*: `/api/assessments/submit`
+- *Method*: POST
+- *Description*: Submits user's health assessment data
+- *Headers*: Authorization: Bearer {token}
+- *Request Body*:
+    ```json
+    {
         "category": "PhysicalFitness",
+        "answers": {...},
         "score": 75
     }
-    
+    ```
 
-### Health History
+#### Get Assessment History
+- *Endpoint*: `/api/assessments/history`
+- *Method*: GET
+- *Description*: Retrieves user's assessment history
+- *Headers*: Authorization: Bearer {token}
 
-- *Endpoint*: /api/quiz/scores
-- *Method*: POST
-- *Description*: Retrieves user's health scores.
-- *Request Body*:
-    json
-    {
-        "email": "Ram.Raj@example.com"
-    }
+### Leaderboard Routes (`/api/leaderboard`)
+
+#### Get Leaderboard
+- *Endpoint*: `/api/leaderboard`
+- *Method*: GET
+- *Description*: Retrieves the leaderboard with top users' health scores
+- *Headers*: Authorization: Bearer {token}
     
 
 ## Frontend Components
@@ -347,16 +460,14 @@ HealthGuardPro/
 
 ## Styling
 
-The application uses CSS for styling. The styles are organized in the frontend/src/styles directory.
+The application uses CSS for styling. Each component has its corresponding CSS file located alongside the JavaScript component files.
 
-### Example Styles
-- *Login Page Styles*: frontend/src/styles/login.css
-- *Signup Page Styles*: frontend/src/styles/signup.css
-- *Forgot Password Page Styles*: frontend/src/styles/forgotpassword.css
-- *OTP Verification Page Styles*: frontend/src/styles/otpverification.css
-- *Reset Password Page Styles*: frontend/src/styles/resetpassword.css
-- *Dashboard Styles*: frontend/src/styles/dashboard.css
-- *LeaderBoard Styles*: frontend/src/styles/leaderboard.css
+### Frontend Styles Organization
+- **Authentication Pages**: CSS files in `frontend/src/pages/` for login, signup, forgot password, OTP verification, and change password
+- **Dashboard Components**: CSS files in `frontend/src/pages/DashboardPage/` and its subdirectories for all dashboard-related components
+- **Main Application Styles**: 
+  - `frontend/src/App.css` - Main application styles
+  - `frontend/src/index.css` - Global styles
 
 ## Testing
 
